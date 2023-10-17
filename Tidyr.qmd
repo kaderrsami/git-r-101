@@ -15,6 +15,7 @@ library(here)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(plotly)
 ```
 
 do not include the rendered doc in the Git for ensuring the compatibility forcing. The rendered version can be for online CV.
@@ -46,7 +47,7 @@ The problems:
 
 #### Tydir solution
 
-```{r}
+```{r eustocks on the same file}
 # Convert to long format
 eustock_long <- eustock |> pivot_longer(
                                         cols = -time, 
@@ -70,7 +71,7 @@ print(eustock_long)
 ```
 
 When in the long format, whe can use other features of ggplot: 
-```{r}
+```{r eustocks long}
 #| fig-height: 10
 ggplot(eustock_long, aes(
                         x = time, 
@@ -78,5 +79,33 @@ ggplot(eustock_long, aes(
                         color = StockIndex)) +
   geom_line() +
   facet_wrap(~StockIndex, ncol = 1, scales = 'free_y')
+```
+
+```{r eustocks interactive}
+# Convert to long format if not already done
+eustock_long <- eustock %>% pivot_longer(
+  cols = -time, 
+  names_to = "StockIndex", 
+  values_to = "Value"
+)
+
+# Create the ggplot object
+p <- ggplot(eustock_long, aes(
+                        x = time, 
+                        y = Value, 
+                        color = StockIndex,
+                        group = StockIndex)) +
+  geom_line() +
+    labs(
+        y = "Stock Value", 
+        x = "Time", 
+        color = "Stock Index")
+
+# Convert to plotly object for interactivity
+p <- ggplotly(p)
+
+# Show the plot
+p
+
 ```
 
