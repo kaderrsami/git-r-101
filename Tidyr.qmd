@@ -1,0 +1,16 @@
+---
+title: "tidyr"
+author: "Sami Kader"
+format: html
+---
+
+## Tidyr and ggplot
+
+```{r}
+here::i_am("git-r-101.Rproj")
+library(here)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+```
+
